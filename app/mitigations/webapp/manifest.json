@@ -20,6 +20,18 @@
 					"localUri": "localService/metadata.xml"
 				}
 			}
+		},
+		"crossNavigation": {
+			"inbounds": {
+				"intent1": {
+					"signature": {
+						"parameters": {},
+						"additionalParameters": "allowed"
+					},
+					"semanticObject": "Mitigations",
+					"action": "display"
+				}
+			}
 		}
 	},
 	"sap.fiori": {
@@ -50,7 +62,7 @@
 			"id": "app"
 		},
 		"dependencies": {
-			"minUI5Version": "1.66.0",
+			"minUI5Version": "1.75.0",
 			"libs": {
 				"sap.ui.core": {},
 				"sap.m": {},
