@@ -94,6 +94,8 @@ modules:
     # Resources extracted from CAP configuration
     - name: cpapp-db
     - name: cpapp-uaa
+    - name: cpapp-connectivity
+    - name: cpapp-destination
    provides:
     - name: srv-api      # required by consumers of CAP services (e.g. approuter)
       properties:
@@ -176,3 +178,14 @@ resources:
    parameters:
       service-plan: app-host
       service: html5-apps-repo
+
+ - name: cpapp-connectivity
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service: connectivity
+     service-plan: lite
+ - name: cpapp-destination
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service: destination
+     service-plan: lite
