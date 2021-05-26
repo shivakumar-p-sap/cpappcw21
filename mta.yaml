@@ -1,24 +1,24 @@
 _schema-version: "3.1"
-ID: cw21
+ID: cpapp
 description: A simple CAP project.
 version: 1.0.0
 modules:
-- name: cw21-srv
+- name: cpapp-srv
   type: nodejs
   path: gen/srv
   requires:
-  - name: cw21-db
-  - name: cw21-uaa
+  - name: cpapp-db
+  - name: cpapp-uaa
   provides:
   - name: srv-api
     properties:
       srv-url: ${default-url}
-- name: cw21-db-deployer
+- name: cpapp-db-deployer
   type: hdb
   path: gen/db
   requires:
-  - name: cw21-db
-  - name: cw21-uaa
+  - name: cpapp-db
+  - name: cpapp-uaa
   parameters:
     buildpack: nodejs_buildpack
 - name: cpapp-destinations
@@ -58,7 +58,7 @@ modules:
         existing_destinations_policy: update
   build-parameters:
     no-source: true
-- name: cw21-app-content
+- name: cpapp-app-content
   type: com.sap.application.content
   path: .
   requires:
@@ -97,14 +97,14 @@ modules:
     - npm run build:cf
     supported-platforms: []
 resources:
-- name: cw21-db
+- name: cpapp-db
   type: com.sap.xs.hdi-container
   parameters:
     service: hana
     service-plan: hdi-shared
   properties:
     hdi-service-name: ${service-name}
-- name: cw21-uaa
+- name: cpapp-uaa
   type: org.cloudfoundry.managed-service
   parameters:
     config:
@@ -118,7 +118,7 @@ resources:
         role-template-references:
         - $XSAPPNAME.RiskViewer
       tenant-mode: dedicated
-      xsappname: cw21-${space}
+      xsappname: cpapp-${space}
     path: ./xs-security.json
     service: xsuaa
     service-plan: application
