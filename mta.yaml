@@ -9,6 +9,7 @@ modules:
   requires:
   - name: cpapp-db
   - name: cpapp-uaa
+  - name: cpapp-logs
   provides:
   - name: srv-api
     properties:
@@ -19,6 +20,7 @@ modules:
   requires:
   - name: cpapp-db
   - name: cpapp-uaa
+  - name: cpapp-logs
   parameters:
     buildpack: nodejs_buildpack
 - name: cpapp-destinations
@@ -104,6 +106,11 @@ resources:
     service-plan: hdi-shared
   properties:
     hdi-service-name: ${service-name}
+- name: cpapp-logs
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: application-logs
+    service-plan: standard
 - name: cpapp-uaa
   type: org.cloudfoundry.managed-service
   parameters:
