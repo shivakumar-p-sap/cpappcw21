@@ -78,7 +78,7 @@ modules:
       target-path: resources/
 - name: nsrisks
   type: html5
-  path: app\risks
+  path: app/risks
   build-parameters:
     build-result: dist
     builder: custom
@@ -88,7 +88,7 @@ modules:
     supported-platforms: []
 - name: nsmitigations
   type: html5
-  path: app\mitigations
+  path: app/mitigations
   build-parameters:
     build-result: dist
     builder: custom
