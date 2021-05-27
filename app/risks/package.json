@@ -9,14 +9,14 @@
     ],
     "main": "webapp/index.html",
     "scripts": {
-        "deploy-config": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf"
+        "deploy": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf"
     },
-	"devDependencies": {
-        "@ui5/cli": "^2.10.1",
+    "devDependencies": {
+        "@sap/ux-specification": "latest",
+        "@sap/ux-ui5-tooling": "1",
+        "@ui5/cli": "^2.10.4",
         "@ui5/fs": "^2.0.6",
         "@ui5/logger": "^2.0.1",
-        "@sap/ux-ui5-tooling": "1",
-        "rimraf": "3.0.2",
-        "@sap/ux-specification": "latest"
-}
+        "rimraf": "3.0.2"
+    }
 }

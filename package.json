@@ -6,20 +6,20 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@sap-cloud-sdk/core": "^1.31.0",
     "@sap/cds": "^5",
+    "@sap/cloud-sdk-vdm-business-partner-service": "^1.23.0",
+    "@sap/xb-msg-amqp-v100": "^0.9.39",
     "@sap/xsenv": "^3.1.0",
     "@sap/xssec": "^3.2.0",
     "express": "^4",
     "hdb": "^0.18.3",
-    "passport": "^0.4.1",
-    "@sap/xb-msg-amqp-v100": "0.9.39",
-    "@sap-cloud-sdk/core": "^1.31.0",
-    "@sap/cloud-sdk-vdm-business-partner-service": "^1.23.0"
+    "passport": "^0.4.1"
   },
   "devDependencies": {
-    "@sap/ux-specification": "^1.84.11",
+    "@sap/ux-specification": "^1.84.10",
     "sqlite3": "^5.0.2",
-    "@sap/hdi-deploy": "3.11.11",
+    "@sap/hdi-deploy": "^4",
     "ui5-middleware-simpleproxy": "^0.4.0"
   },
   "scripts": {
@@ -70,7 +70,7 @@
       },
       "API_BUSINESS_PARTNER": {
         "kind": "odata",
-        "model": "srv/external/API_BUSINESS_PARTNER",
+        "model": "srv\\external\\API_BUSINESS_PARTNER",
         "credentials": {
           "destination": "cap-api098",
           "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
@@ -80,5 +80,8 @@
     "hana": {
       "deploy-format": "hdbtable"
     }
+  },
+  "engines": {
+    "node": ">=14"
   }
 }
