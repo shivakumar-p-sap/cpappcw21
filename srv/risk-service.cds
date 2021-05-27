@@ -1,4 +1,5 @@
 using {sap.ui.riskmanagement as my} from '../db/schema';
+using {API_BUSINESS_PARTNER as external} from '../srv/external/API_BUSINESS_PARTNER.csn';
 
 @path : 'service/risk'
 service RiskService {
