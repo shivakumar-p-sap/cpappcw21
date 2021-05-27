@@ -7,7 +7,6 @@ annotate RiskService.Risks with {
     miti   @title : 'Mitigation';
     impact @title : 'Impact';
     bp     @title : 'Business Partner';
-    status @title : 'Status'
 }
 
 annotate RiskService.Mitigations with {
@@ -23,15 +22,12 @@ annotate RiskService.Mitigations with {
 
 annotate RiskService.Risks with @(
     UI                 : {
-        HeaderInfo         : {
+        HeaderInfo       : {
             TypeName       : 'Risk',
             TypeNamePlural : 'Risks'
         },
-        SelectionFields    : [
-            prio,
-            status_value
-        ],
-        LineItem           : [
+        SelectionFields  : [prio],
+        LineItem         : [
             {Value : title},
             {Value : miti_ID},
             {Value : bp.businessPartnerFullName},
@@ -42,26 +38,14 @@ annotate RiskService.Risks with @(
             {
                 Value       : impact,
                 Criticality : criticality
-            },
-            {
-                Value       : status_value,
-                Criticality : status.criticality
             }
         ],
-        Facets             : [{
+        Facets           : [{
             $Type  : 'UI.ReferenceFacet',
             Label  : 'Main',
             Target : '@UI.FieldGroup#Main'
         }],
-        HeaderFacets       : [
-
-        {
-            $Type  : 'UI.ReferenceFacet',
-            Target : '@UI.FieldGroup#Detail'
-        }
-
-        ],
-        FieldGroup #Main   : {Data : [
+        FieldGroup #Main : {Data : [
             {Value : title},
             {Value : miti_ID},
             {Value : descr},
@@ -76,19 +60,8 @@ annotate RiskService.Risks with @(
             {Value : bp_ID},
             {Value : bp.businessPartnerFullName},
             {Value : bp.businessPartnerIsBlocked},
-            {Value : bp.searchTerm1},
-            {Value : bp.industry},
-            {
-                Value       : status_value,
-                Criticality : status.criticality
-            }
-        ]},
-        FieldGroup #Detail : {Data : [{
-            $Type       : 'UI.DataField',
-            Value       : status_value,
-            Title       : 'Status',
-            Criticality : status.criticality
-        }]}
+            {Value : bp.searchTerm1}
+        ]}
     },
     Common.SideEffects : {
         EffectTypes      : #ValueChange,
@@ -158,26 +131,14 @@ annotate RiskService.Risks with {
 
 
 annotate RiskService.BusinessPartners with {
-
+    // ID @(
+    //   UI.Hidden,
+    //   Common: {
+    //     Text: businessPartnerFullName
+    //   }
+    // );
     ID                       @title : 'Business Partner';
     businessPartnerFullName  @title : 'Business Partner Name'  @readonly;
     businessPartnerIsBlocked @title : 'Blocked Status'  @readonly;
     searchTerm1              @title : 'Search Term'  @readonly;
-    industry                 @title : 'Industry'  @readonly;
 }
-
-annotate RiskService.StatusValues with {
-    value @Common : {
-        Text            : value,
-        TextArrangement : #TextOnly
-    }     @title :  'status';
-
-};
-
-annotate RiskService.Risks with {
-    status @(Common : {
-        ValueList    : {entity : 'StatusValues'},
-        ValueListWithFixedValues,
-        FieldControl : #Mandatory
-    });
-};

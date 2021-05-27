@@ -20,20 +20,13 @@ module.exports = async (srv) => {
         }
         });
 
-        messaging.on(["refapps/cpappems/abc/BO/BusinessPartner/Changed", "refapps/cpappems/abc/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Changed/v1"], async (msg) => {
+        messaging.on("sap/S4HANAOD/cw21/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Changed/v1", async (msg) => {
             console.log("<< event caught", msg);
-            let BUSINESSPARTNER=""
-            if(msg.headers && msg.headers.specversion == "1.0"){
-           //> Fix for 2020 on-premise
-              BUSINESSPARTNER = (+(msg.data.BusinessPartner)).toString();
-            }
-            else{
-              BUSINESSPARTNER = (+(msg.data.KEY[0].BUSINESSPARTNER)).toString();
-            }  
+            const BUSINESSPARTNER = msg.data.BusinessPartner;
+            console.log('<<< Received Business Partner ' + BUSINESSPARTNER )
             const replica = await cds.tx(msg).run(SELECT.one(BusinessPartners, (n) => n.ID).where({ID: BUSINESSPARTNER}));
             if(!replica) return;
             const bp = await BupaService.tx(msg).run(SELECT.one(externalBP).where({ID: BUSINESSPARTNER}));
-            const {UPDATE} = cds.ql(msg);
             if(bp) return db.tx(msg).run(UPDATE(BusinessPartners, replica.ID).with(bp));
         });
     
@@ -55,7 +48,7 @@ module.exports = async (srv) => {
               }
               let payloadBuilder = sdkBusinessPartner.builder().fromJson(payload);
               payloadBuilder.businessPartner = data.bp_ID;
-              let res = await sdkBusinessPartner.requestBuilder().update(payloadBuilder).withCustomServicePath("/").execute({
+              let res = await sdkBusinessPartner.requestBuilder().update(payloadBuilder).execute({
                 destinationName: packageJson.cds.requires.API_BUSINESS_PARTNER.credentials.destination
               });
               console.log("Search Term update", res);
@@ -74,16 +67,9 @@ module.exports = async (srv) => {
             return res
         });
     
-        messaging.on(["refapps/cpappems/abc/BO/BusinessPartner/Created", "refapps/cpappems/abc/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Created/v1"], async (msg) => {
+        messaging.on("sap/S4HANAOD/cw21/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Created/v1", async (msg) => {
           console.log("<< event caught", msg);
-          let BUSINESSPARTNER=""
-          if(msg.headers && msg.headers.specversion == "1.0"){
-         //> Fix for 2020 on-premise
-            BUSINESSPARTNER = (+(msg.data.BusinessPartner)).toString();
-          }
-          else{
-            BUSINESSPARTNER = (+(msg.data.KEY[0].BUSINESSPARTNER)).toString();
-          }  
+          let BUSINESSPARTNER = msg.data.BusinessPartner;
           const industry = await BupaService.tx(msg).run(SELECT.one(BuPaIndustry).where({BusinessPartner: BUSINESSPARTNER}))
           console.log("Belongs to Industry >> ", industry);
           if(industry.IndustrySector == "73"){
@@ -92,9 +78,8 @@ module.exports = async (srv) => {
             await db.tx(msg).create(BusinessPartners).entries(bp);
             createRisk(BUSINESSPARTNER, msg);
           }
-      });
-    
-      async function createRisk(BUSINESSPARTNER, msg){
+        });
+        async function createRisk(BUSINESSPARTNER, msg){
           const payload = {
             title: 'auto: CFR non-compliance',
             descr: 'New Business Partner might violate CFR code',
@@ -104,5 +89,4 @@ module.exports = async (srv) => {
           console.log("Creating auto risk with", payload);
           return cds.tx(msg).run(INSERT.into(srv.entities.Risks).entries(payload));  
         }
-    
     }

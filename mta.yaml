@@ -196,3 +196,17 @@ resources:
      service: enterprise-messaging
      service-plan: default
    type: org.cloudfoundry.managed-service
+ - name: cpappems4c
+   parameters:
+    path: ./s4cems.json
+    service: s4-hana-cloud
+    service-plan: messaging
+    system-name: cw21
+   type: org.cloudfoundry.managed-service
+ - name: cap-api098
+   parameters:
+    path: ./bupa.json
+    service: s4-hana-cloud
+    service-plan: api-access
+    system-name: cw21
+   type: org.cloudfoundry.managed-service

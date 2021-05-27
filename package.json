@@ -18,7 +18,9 @@
   },
   "devDependencies": {
     "@sap/ux-specification": "^1.84.11",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "@sap/hdi-deploy": "3.11.11",
+    "ui5-middleware-simpleproxy": "^0.4.0"
   },
   "scripts": {
     "start": "cds run"
@@ -70,7 +72,8 @@
         "kind": "odata",
         "model": "srv/external/API_BUSINESS_PARTNER",
         "credentials": {
-          "destination": "cap-api098"
+          "destination": "cap-api098",
+          "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
         }
       }
     },
