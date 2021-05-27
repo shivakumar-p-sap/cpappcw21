@@ -96,6 +96,7 @@ modules:
     - name: cpapp-uaa
     - name: cpapp-connectivity
     - name: cpapp-destination
+    - name: cpapp-ems
    provides:
     - name: srv-api      # required by consumers of CAP services (e.g. approuter)
       properties:
@@ -189,3 +190,9 @@ resources:
    parameters:
      service: destination
      service-plan: lite
+ - name: cpapp-ems
+   parameters:
+     path: ./em.json
+     service: enterprise-messaging
+     service-plan: default
+   type: org.cloudfoundry.managed-service
